@@ -1,43 +1,21 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import Form from "./Form";
-import TodoCard from "./TodoCard";
-import { getTodos } from "./api/index";
+import { Route, Routes } from "react-router-dom";
+import { ToDos } from "./ToDos";
+import { TodoLayout } from "./TodoLayout";
+import { NewTodo } from "./NewTodo";
+import EditTodo from "./EditTodo";
+import { NotFound } from "./NotFound";
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  async function loadTodos() {
-    try {
-      setLoading(true);
-      const data = await getTodos();
-      setTodos(data.data.items);
-      setLoading(false);
-    } catch (e) {
-      console.log(e);
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    loadTodos();
-  }, []);
-
   return (
-    <div className="App">
-      <Form setTodos={setTodos} todo={todos} />
-      {loading ? (
-        <div>loading ....</div>
-      ) : (
-        todos.map((todo) => (
-          <TodoCard
-            name={todo.name}
-            id={todo._uuid}
-            key={todo._uuid}
-            setTodos={setTodos}
-          />
-        ))
-      )}
-    </div>
+    <Routes>
+      <Route path="/" element={<TodoLayout />}>
+        <Route index element={<ToDos />} />
+        <Route path=":id" element={<EditTodo />} />
+        <Route path="new" element={<NewTodo />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

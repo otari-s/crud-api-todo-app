@@ -1,47 +1,90 @@
-import React, { useState } from "react";
-import { postData } from "./api/index";
-import { MdLibraryAdd } from "react-icons/md";
-function Form({ setTodos }) {
-  const [value, setValue] = useState("");
+import { useState } from "react";
+import { Spinner } from "./Spinner";
+import { postData, updateTodo } from "./api/index";
+import { useNavigate } from "react-router-dom";
+
+function initialFormValues(values) {
+  return {
+    title: values?.title || "",
+    name: values?.name || "",
+    lastName: values?.lastName || "",
+    duration: values?.duration || undefined,
+    isCompleted: false,
+  };
+}
+
+function Form({ initialValues, type }) {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  async function onSubmit(e) {
+
+  const [values, setValues] = useState(initialFormValues(initialValues));
+
+  function handleChange(key, value) {
+    setValues((prev) => {
+      return {
+        ...prev,
+        [key]: value,
+      };
+    });
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const body = [
-        {
-          name: value,
-          isComplete: false,
-        },
-      ];
-      const { data } = await postData(body);
-      setTodos((prev) => {
-        return [...prev, ...data.items];
-      });
-      setValue("");
+      if (type === "new") {
+        await postData([values]);
+      } else {
+        await updateTodo(values, initialValues._uuid);
+      }
       setIsLoading(false);
+      navigate("/");
     } catch (e) {
-      console.log(e);
       setIsLoading(false);
     }
   }
 
   return (
     <div className="formDiv">
-      <form className="form" onSubmit={onSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <input
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
+          onChange={(e) => handleChange("title", e.target.value)}
+          value={values.title}
           className="formInput"
           type="text"
-          placeholder="Add todo"
+          placeholder="Todo Title"
+        />
+        <input
+          type="number"
+          placeholder="Duration (Day)"
+          className="formInput"
+          value={values.duration || false}
+          onChange={(e) => handleChange("duration", e.target.value)}
+        />
+        <input
+          onChange={(e) => handleChange("name", e.target.value)}
+          value={values.name}
+          className="formInput"
+          type="text"
+          placeholder="Name"
+        />
+        <input
+          onChange={(e) => handleChange("lastName", e.target.value)}
+          value={values.lastName}
+          className="formInput"
+          type="text"
+          placeholder="Last Name"
         />
         <button
-          disabled={isLoading || !value}
-          className="formBtn"
+          // disabled={isLoading || Object.values(values).some((el) => !el)}
+          className="addBtn"
           type="submit"
         >
-          <MdLibraryAdd className="addBtn" />
+          {isLoading ? (
+            <Spinner width={20} height={20} />
+          ) : (
+            <p>{type === "new" ? "Add" : "Edit"} Todo</p>
+          )}
         </button>
       </form>
     </div>
