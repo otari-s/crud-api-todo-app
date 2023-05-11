@@ -1,0 +1,11 @@
+{
+  "tasks": "Tasks",
+  "addNew": "Add New",
+  "placeholders": {
+    "todoTitle": "Todo Title",
+    "todoDuration": "Duration (Day)",
+    "name": "Name",
+    "lastName": "Last Name"
+  },
+  "addTodo": "Add Todo"
+}

@@ -9,7 +9,6 @@ function Spinner({ height = 80, width = 80, radius = 1 }) {
         color="#4fa94d"
         ariaLabel="tail-spin-loading"
         radius={radius}
-        wrapperStyle={{}}
       />
     </div>
   );

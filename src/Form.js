@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Spinner } from "./Spinner";
 import { postData, updateTodo } from "./api/index";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function initialFormValues(values) {
   return {
@@ -14,6 +15,7 @@ function initialFormValues(values) {
 }
 
 function Form({ initialValues, type }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -52,11 +54,11 @@ function Form({ initialValues, type }) {
           value={values.title}
           className="formInput"
           type="text"
-          placeholder="Todo Title"
+          placeholder={t("placeholders.todoTitle")}
         />
         <input
           type="number"
-          placeholder="Duration (Day)"
+          placeholder={t("placeholders.todoDuration")}
           className="formInput"
           value={values.duration || false}
           onChange={(e) => handleChange("duration", e.target.value)}
@@ -66,14 +68,14 @@ function Form({ initialValues, type }) {
           value={values.name}
           className="formInput"
           type="text"
-          placeholder="Name"
+          placeholder={t("placeholders.name")}
         />
         <input
           onChange={(e) => handleChange("lastName", e.target.value)}
           value={values.lastName}
           className="formInput"
           type="text"
-          placeholder="Last Name"
+          placeholder={t("placeholders.lastName")}
         />
         <button
           // disabled={isLoading || Object.values(values).some((el) => !el)}
@@ -83,7 +85,7 @@ function Form({ initialValues, type }) {
           {isLoading ? (
             <Spinner width={20} height={20} />
           ) : (
-            <p>{type === "new" ? "Add" : "Edit"} Todo</p>
+            <p>{type === "new" ? t("addTodo") : t("editTodo")}</p>
           )}
         </button>
       </form>

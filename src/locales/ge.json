@@ -1,0 +1,11 @@
+{
+  "tasks": "დავალებები",
+  "addNew": "დაამატე ახალი",
+  "placeholders": {
+    "todoTitle": "შესასრულებელი დავალება",
+    "todoDuration": "ვადა (დღე)",
+    "name": "სახელი",
+    "lastName": "გვარი"
+  },
+  "addTodo": "დამატება"
+}

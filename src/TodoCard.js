@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { deleteDAta, updateTodo } from "./api/index";
-import { MdDeleteForever, MdEdit, MdDoneAll } from "react-icons/md";
+import { MdDeleteForever, MdEdit, MdDoneAll, MdDone } from "react-icons/md";
 import { Spinner } from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 function TodoCard({ todo, setTodos, id }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [completeLoading, setCompleteLoading] = useState(false);
 
   async function handleDelete() {
     try {
@@ -19,44 +20,43 @@ function TodoCard({ todo, setTodos, id }) {
     }
   }
 
-  async function completeTodo() {
+  async function completeTodo(isCompleted) {
     try {
-      const isComplete = { ...todo, isCompleted: true };
+      setCompleteLoading(true);
+      const isComplete = { ...todo, isCompleted };
       const res = await updateTodo(isComplete, todo._uuid);
       setTodos((prevValue) => {
         return prevValue.map((item) =>
           item._uuid === todo._uuid ? res.data : item
         );
       });
-    } catch (e) {}
+      setCompleteLoading(false);
+    } catch (e) {
+      setCompleteLoading(false);
+    }
   }
 
   return (
     <div className="todoCArd">
-      <p
-        style={
-          todo.isCompleted
-            ? { textDecoration: "line-through", color: "gray" }
-            : null
-        }
-        className="todoTitle"
-      >
-        {todo.title}
-      </p>
-      <div className="userInfo">
-        <ul>
-          <li>{todo.name}</li>
-          <li>{todo.lastName}</li>
-          <li>{todo.duration} Day</li>
-        </ul>
-        {/* <p>name: {todo.name}</p> */}
-        {/* <p>{todo.lastName}</p>
-        <p>{todo.duration}</p> */}
+      <div>
+        <p
+          style={
+            todo.isCompleted
+              ? { textDecoration: "line-through", color: "gray" }
+              : null
+          }
+          className="todoTitle"
+        >
+          {todo.title}
+        </p>
+        <h4>{todo.name}</h4>
+        <h4>{todo.lastName}</h4>
+        <h4>{todo.duration} day</h4>
       </div>
       <div className="TodoCardButtonsDiv">
         <button className="formBtn" disabled={loading} onClick={handleDelete}>
           {loading ? (
-            <Spinner width={20} height={20} />
+            <Spinner width={24} height={24} />
           ) : (
             <MdDeleteForever className="delBtn" />
           )}
@@ -65,8 +65,21 @@ function TodoCard({ todo, setTodos, id }) {
           <MdEdit className="editBtn" />
         </button>
 
-        <button className="formBtn" onClick={completeTodo}>
-          <MdDoneAll className="editBtn" />
+        <button
+          className="formBtn"
+          onClick={() => completeTodo(true)}
+          disabled={completeLoading}
+        >
+          {completeLoading ? (
+            <Spinner width={18} height={18} />
+          ) : todo.isCompleted ? (
+            <MdDoneAll
+              className="editBtn"
+              onClick={() => completeTodo(false)}
+            />
+          ) : (
+            <MdDone className="editBtn" />
+          )}
         </button>
       </div>
     </div>

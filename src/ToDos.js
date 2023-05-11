@@ -3,9 +3,11 @@ import TodoCard from "./TodoCard";
 import { getTodos } from "./api/index";
 import { Spinner } from "./Spinner";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function ToDos() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   async function loadTodos() {
@@ -30,10 +32,10 @@ function ToDos() {
           navigate("/new");
         }}
       >
-        add new
+        {t("addNew")}
       </button>
       {loading ? (
-        <Spinner />
+        <Spinner width={70} height={70} />
       ) : (
         todos.map((todo) => (
           <TodoCard

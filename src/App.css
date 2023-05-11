@@ -1,4 +1,4 @@
-.App {
+.app {
   width: 50%;
   min-height: 100vh;
   margin: 10px auto;
@@ -6,10 +6,55 @@
   border-radius: 10px;
   padding: 20px;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(121, 55, 55);
+  color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+}
+
+.header nav {
+  width: 100%;
+}
+
+.header nav ul {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  border: none;
+}
+
+.header nav li {
+  margin-right: 10px;
+}
+
+.header nav li:last-child {
+  margin-right: 0;
+}
+
+.header nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.header nav a:hover {
+  text-decoration: underline;
+}
+
 .formDiv {
   width: 100%;
   margin-bottom: 20px;
 }
+
 .form {
   width: 100%;
   height: 40px;
@@ -28,13 +73,16 @@
 }
 
 .formBtn {
-  /* width: 10%; */
-  height: 100%;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   background-color: white;
+  opacity: 0.6;
+}
+.formBtn:hover {
+  opacity: 1;
 }
 .addNewTodoBtn {
   width: 20%;
@@ -71,22 +119,27 @@
 .todoCArd {
   width: 100%;
   min-height: 50px;
-  border: 1px solid rgb(66, 50, 50);
-  display: flex;
-  align-items: flex-start;
-  /* justify-content: space-between; */
-  padding: 5px 10px;
-  margin-bottom: 10px;
+  border: 1px solid rgba(207, 207, 207, 1);
+  padding: 10px;
+  margin-bottom: 20px;
   border-radius: 5px;
+  box-shadow: 2px 2px 22px -5px rgba(207, 207, 207, 1);
+  position: relative;
+}
+.todoCArd h4 {
+  font-weight: 300;
 }
 .TodoCardButtonsDiv {
   /* border: 1px solid black; */
-  width: 20%;
+  width: 80px;
   height: 30px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5%;
+  justify-content: space-between;
+  /* gap: 5%; */
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 .loadingBtn {
   background-color: brown;
